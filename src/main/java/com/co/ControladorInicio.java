@@ -89,11 +89,18 @@ public class ControladorInicio {
     
 }
 
-/*@PutMapping("/updateUser/{id}")
-    private ResponseEntity<?> updateUser(@PathVariable("id") String username, @RequestBody User user){
-        User existentUser = userService.getUser(username);
-        System.out.println("Existent user: " + existentUser);
-        existentUser.setPasswordc(passwordEncoder.encode(user.getPasswordc()));
+/*NOTA
+El uso de `@GetMapping` en lugar de `@PutMapping` en el método `editar` se debe a la forma en que se realiza la edición de usuarios en este caso.
 
-        return ResponseEntity.ok(userService.createUser(user));   
+En el formulario de edición de usuario, se utiliza un formulario HTML con el método `POST` y el atributo `th:action="@{/guardar}"`. Esto significa que cuando se envía el formulario, los datos se envían al método `guardar` del controlador.
+
+El método `editar` se encarga de mostrar la página de edición del usuario, y no realiza directamente ninguna actualización en la base de datos. Al utilizar `@GetMapping`, se mapea la URL `/editar/{username}` a este método, lo que significa que cuando se accede a esa URL, se mostrará la página de edición del usuario correspondiente al `username` especificado.
+
+Cuando se envía el formulario de edición, los datos se envían al método `guardar` utilizando `@PostMapping("/guardar")`. Aquí es donde realmente se realiza la actualización en la base de datos.
+
+Entonces, en resumen:
+- `@GetMapping("/editar/{username}")` se utiliza para mostrar la página de edición del usuario.
+- `@PostMapping("/guardar")` se utiliza para guardar los cambios realizados en la página de edición del usuario.
+
+Ambos métodos cumplen con funciones diferentes en el proceso de edición de usuarios y, por lo tanto, utilizan anotaciones diferentes.
     }*/
