@@ -11,6 +11,9 @@ import org.springframework.data.repository.CrudRepository;
 //ejm: vista de listar clientes - modelo: guardar, listar, update cliente 
 //vista - interfaz - modelo
 //tome todos los atributos de crudrepository<uso de genericos> es decir <nombreDeClase, tipo de datos de clave primaria>
-public interface OyenteDAO extends CrudRepository<Oyente, String> {
-    
+public interface OyenteDAO extends CrudRepository<Oyente, String> { // Esta interfaz extiende CrudRepository para interactuar con la tabla de oyentes en la base de datos
+    // El primer parámetro genérico "Oyente" indica el tipo de entidad con el que se va a interactuar
+    // El segundo parámetro genérico "String" indica el tipo de dato del identificador único de la entidad
+    /*Nota:Al utilizar esta interfaz en un controlador, se pueden realizar operaciones como oyenteDao.save(oyente) para guardar un oyente en la base de datos, oyenteDao.findById(username) para buscar un oyente por su nombre de usuario, y oyenteDao.deleteById(username) para eliminar un oyente por su nombre de usuario.
+    */
 }

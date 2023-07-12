@@ -7,17 +7,15 @@ import javax.persistence.*;//connection a la base de d
 //modelo:
 //serialiacion me combierte el objeto en un flujo de datos, el obeto edta dentro de la clase con sus atributos con serialize puedo usar sus atributos al llamar a este objeto, para ller, guardar y usar sus datos 
 
-@Data //Notacion sobre cualquier clase: toma los atributos de la clase y crea los get set, to string y demás 
-@Entity //va a trabajar sobr euna entidad :  para decir que es una entidad que va a hacer el mape objeto trelacional a una entidad, es decir a una tabla 
-@Table(name="oyente") //para indicar la tabla relacionada
-//Para conectarnos a la base de datos usamos SErializable
-public class Oyente implements Serializable{
-    //usamos wrapper, poara tener acceso a los metodos asociados a ellos, ejemplo int: Integer
-    @Id
-    private String username;
-    private String contrasena;
-    private String nombre_oyente;
-    private String apellido_oyente;
-    private String email_oyente; 
-    private String pais_oyente; 
+@Data // Esta anotación de Lombok genera automáticamente los métodos getter, setter, toString, equals y hashCode para todos los atributos de la clase
+@Entity // Esta anotación indica que esta clase es una entidad JPA:UNA TABLA y se debe mapear a una tabla en la base de datos
+@Table(name="oyente") // Esta anotación especifica el nombre de la tabla en la base de datos a la que se debe mapear esta entidad
+public class Oyente implements Serializable{ // Esta clase implementa la interfaz Serializable para permitir su serialización
+    @Id // Esta anotación indica que este atributo es el identificador único de la entidad
+    private String username; // Nombre de usuario del oyente
+    private String contrasena; // Contraseña del oyente
+    private String nombre_oyente; // Nombre del oyente
+    private String apellido_oyente; // Apellido del oyente
+    private String email_oyente; // Correo electrónico del oyente
+    private String pais_oyente; // País del oyente
 }

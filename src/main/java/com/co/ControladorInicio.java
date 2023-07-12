@@ -18,76 +18,57 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ControladorInicio {
     
-    @Autowired //para inyectar la clase para que se pueda acceder mediante cualquier lugar: Yo voy a usar mi propia clase, no la que tienes en otros lados
-    //instancia de clase:
-    private OyenteDAO oyenteDao;
+    @Autowired // Esta anotación indica que Spring debe inyectar una instancia de la clase OyenteDAO en esta variable
+    private OyenteDAO oyenteDao; // Instancia de la clase OyenteDAO para interactuar con la base de datos
     
-       
-    //Muestre desde la posicion o raiz absoluta de la página :
-    @GetMapping("/")
-    public String inicio(){
-        return "index";
+    @GetMapping("/") // Esta anotación indica que este método maneja solicitudes GET a la ruta "/"
+    public String inicio(){ // Este método devuelve el nombre de la vista que se debe mostrar
+        return "index"; // Se devuelve el nombre de la vista "index"
     }
     
-     //Cuando pida mostrar inicio de sesion va a hacer: 
-    //para abrir la pagina 
-    @GetMapping("/login")
-      public String iniciosesion(){
-        return "iniciosesion";
+    @GetMapping("/login") // Esta anotación indica que este método maneja solicitudes GET a la ruta "/login"
+    public String iniciosesion(){ // Este método devuelve el nombre de la vista que se debe mostrar
+        return "iniciosesion"; // Se devuelve el nombre de la vista "iniciosesion"
     }
       
-     @GetMapping("/register")
-      public String registro(){
-        return "register";
+    @GetMapping("/register") // Esta anotación indica que este método maneja solicitudes GET a la ruta "/register"
+    public String registro(){ // Este método devuelve el nombre de la vista que se debe mostrar
+        return "register"; // Se devuelve el nombre de la vista "register"
     }
       
-      //cuiando entre al login amdin
-    @GetMapping("/loginadmin")
-    public String loginadmin(Model model){
-           //creo una variable u objeto oyentes
-          //findall: listar
-          var oyentes = oyenteDao.findAll();
-          //debo compartir a la vista:
-            //va a compartir todos sus atributos: el oyente de var, y el objeto oyentes
-          model.addAttribute("oyentes", oyentes);
-          //esto lo comparto con el loginadmin
-        return "loginadmin";
+    @GetMapping("/loginadmin") // Esta anotación indica que este método maneja solicitudes GET a la ruta "/loginadmin"
+    public String loginadmin(Model model){ // Este método toma como parámetro un objeto "model" para pasar datos a la vista
+        var oyentes = oyenteDao.findAll(); // Se buscan todos los oyentes en la base de datos utilizando el objeto oyenteDao
+        model.addAttribute("oyentes", oyentes); // Se agrega una lista con todos los oyentes encontrados al objeto "model" para pasarlo a la vista
+        return "loginadmin"; // Se devuelve el nombre de la vista "loginadmin"
     }
      
-            //Mapeo para mostrar la pagina de formulario de guardar 
-      @GetMapping("/crear")
-      //llamo desde login del admin 
-      public String crear(){
-          return "crear";
-      }
+    @GetMapping("/crear") // Esta anotación indica que este método maneja solicitudes GET a la ruta "/crear"
+    public String crear(){ // Este método devuelve el nombre de la vista que se debe mostrar
+        return "crear"; // Se devuelve el nombre de la vista "crear"
+    }
       
-   //para guardar y actualizar los datos del usuario
-      @PostMapping("/guardar")
-      //ModelAttribute: para recuperar el modelo de Cleinte
-      public String guardar(@ModelAttribute Oyente oyentes){
-      //cuando el guarde guarde en la base de datos y re direccione para decir que el usuario se duargo correctanemten
-      //ClienteDAO: podemos utuilizar los metodos del crud repository, ahora vamos a usar guardar 
-      oyenteDao.save(oyentes);
-        return "redirect:loginadmin";
-      }
+    @PostMapping("/guardar") // Esta anotación indica que este método maneja solicitudes POST a la ruta "/guardar"
+    public String guardar(@ModelAttribute Oyente oyentes){ // Este método toma como parámetro un objeto Oyente que se construye a partir de los datos enviados en la solicitud
+        oyenteDao.save(oyentes); // Se guarda el objeto Oyente en la base de datos utilizando el objeto oyenteDao
+        return "redirect:loginadmin"; // Se redirige al usuario a la ruta "/loginadmin"
+    }
       
       
-        @GetMapping("/editar/{username}")
-        //recibo una variable id cliente
-        public String editar(@PathVariable("username") String username, Model model){
-            var oyentes= oyenteDao.findById(username);
-            model.addAttribute("oyentes",oyentes);
-            return "modificar1";
-        }
+    @GetMapping("/editar/{username}") // Esta anotación indica que este método maneja solicitudes GET a la ruta "/editar/{username}"
+    public String editar(@PathVariable("username") String username, Model model){ // Este método toma como parámetros una variable "username" extraída de la ruta y un objeto "model" para pasar datos a la vista
+        var oyentes= oyenteDao.findById(username); // Se busca un oyente por su nombre de usuario utilizando el objeto oyenteDao
+        model.addAttribute("oyentes",oyentes); // Se agrega el oyente encontrado al objeto "model" para pasarlo a la vista
+        return "modificar1"; // Se devuelve el nombre de la vista "modificar1"
+    }
         
-        @GetMapping("/eliminar/{username}")
-        //recibo una variable id username
-        public String eliminar(@PathVariable("username") String username){
-            oyenteDao.deleteById(username);
-            return "redirect:/loginadmin";
-        }
-    
+    @GetMapping("/eliminar/{username}") // Esta anotación indica que este método maneja solicitudes GET a la ruta "/eliminar/{username}"
+    public String eliminar(@PathVariable("username") String username){ // Este método toma como parámetro una variable "username" extraída de la ruta
+        oyenteDao.deleteById(username); // Se elimina un oyente por su nombre de usuario utilizando el objeto oyenteDao
+        return "redirect:/loginadmin"; // Se redirige al usuario a la ruta "/loginadmin"
+    }
 }
+
 
 /*NOTA
 El uso de `@GetMapping` en lugar de `@PutMapping` en el método `editar` se debe a la forma en que se realiza la edición de usuarios en este caso.
